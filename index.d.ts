@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RequestHandler } from 'express'
 import { SessionData } from 'express-session'
 import { Messaging } from 'firebase-admin/lib/messaging/messaging'
@@ -162,6 +163,17 @@ declare namespace Eventful {
       remember?: boolean
     }
   }
+
+  namespace RN {
+    type RootStackParamList = {
+      Events: undefined
+      Auth: undefined
+      Welcome: undefined
+    }
+
+    type StackProps<NavigatorID extends keyof RootStackParamList | undefined = undefined> =
+      NativeStackScreenProps<RootStackParamList, NavigatorID>
+  }
 }
 
 export interface ClientToServerEvents {
@@ -188,6 +200,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production' | 'test'
+      IS_MOBILE: boolean
       DATABASE_URI: string
       DATABASE_NAME: string
       SESSION_SECRET: string

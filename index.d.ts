@@ -169,6 +169,8 @@ declare namespace Eventful {
       Events: undefined
       Auth: undefined
       Welcome: undefined
+      User: { user: ID }
+      Contacts: { user: ID }
     }
 
     type StackProps<NavigatorID extends keyof RootStackParamList | undefined = undefined> =

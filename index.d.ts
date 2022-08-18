@@ -171,6 +171,11 @@ declare namespace Eventful {
       Welcome: undefined
       User: { user: ID }
       Contacts: { user: ID }
+      Event: { event: ID }
+      NotificationSetting: {
+        type: Eventful.NotificationSetting['refModel']
+        id: ID
+      }
     }
 
     type StackProps<NavigatorID extends keyof RootStackParamList | undefined = undefined> =

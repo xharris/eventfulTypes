@@ -85,7 +85,7 @@ declare namespace Eventful {
 
   interface NotificationSetting extends Document {
     /** describes notification trigger */
-    key: 'message:add'
+    key: keyof ServerToClientEvents
     /** ID of source */
     ref: ID
     /** source of notification */
@@ -176,6 +176,8 @@ declare namespace Eventful {
         type: Eventful.NotificationSetting['refModel']
         id: ID
       }
+      PlanEditScreen: { plan: ID }
+      ContactSelect: { user: ID; selected: ID[] }
     }
 
     type StackProps<NavigatorID extends keyof RootStackParamList | undefined = undefined> =
@@ -191,10 +193,13 @@ export interface ClientToServerEvents {
 }
 
 export interface ServerToClientEvents {
+  notification: (payload: Eventful.NotificationPayload) => void
   'message:add': (message: Eventful.API.MessageGet) => void
   'message:edit': (message: Eventful.API.MessageGet) => void
   'message:delete': (message: Eventful.ID) => void
-  notification: (payload: Eventful.NotificationPayload) => void
+  'plan:add': (plan: Eventful.API.PlanGet) => void
+  'plan:edit': (plan: Eventful.API.PlanGet) => void
+  'plan:delete': (plan: Eventful.ID) => void
 }
 
 declare module 'express-session' {

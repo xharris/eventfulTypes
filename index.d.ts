@@ -93,6 +93,12 @@ declare namespace Eventful {
     createdBy: ID
   }
 
+  interface UserSetting extends Document {
+    key: string
+    value: string
+    createdBy: ID
+  }
+
   interface FcmToken extends Document {
     token: string
     createdBy: ID
@@ -149,6 +155,11 @@ declare namespace Eventful {
     interface MessageEdit extends Pick<Message, '_id' | 'text' | 'replyTo'> {
       replyTo?: Message['replyTo']
     }
+
+    interface SettingsGet {
+      searchVisibility?: 'any' | 'contacts'
+    }
+    type SettingsEdit = SettingsGet
 
     interface LogInOptions {
       username: string

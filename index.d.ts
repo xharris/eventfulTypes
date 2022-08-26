@@ -1,3 +1,5 @@
+import { BottomTabNavigationProp, BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RequestHandler } from 'express'
 import { SessionData } from 'express-session'
@@ -176,23 +178,78 @@ declare namespace Eventful {
   }
 
   namespace RN {
+    type Storage = {
+      lastEvent?: ID
+    }
+
     type RootStackParamList = {
-      Events: undefined
-      Auth: undefined
       Welcome: undefined
-      User: { user: ID }
-      Contacts: { user: ID }
+      Auth: undefined
+      App: NavigatorScreenParams<AppTabParamList>
+    }
+
+    type RootStackScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<
+      RootStackParamList,
+      T
+    >
+
+    type AppTabParamList = {
+      AgendaTab: NavigatorScreenParams<AgendaStackParamList>
+      EventTab: NavigatorScreenParams<EventStackParamList>
+      UserTab: NavigatorScreenParams<UserStackParamList>
+    }
+
+    type AppTabScreenProps<T extends keyof AppTabParamList> = CompositeScreenProps<
+      BottomTabScreenProps<AppTabParamList, T>,
+      RootStackScreenProps<'App'>
+    >
+
+    type AgendaStackParamList = {
+      Events: undefined
+    }
+
+    type AgendaStackScreenProps<T extends keyof AgendaStackParamList> = CompositeScreenProps<
+      NativeStackScreenProps<AgendaStackParamList, T>,
+      CompositeScreenProps<
+        BottomTabScreenProps<AppTabParamList, 'AgendaTab'>,
+        RootStackScreenProps<'App'>
+      >
+    >
+
+    type EventStackParamList = {
       Event: { event: ID }
+      PlanEdit: { plan: ID }
+      ContactSelect: { user: ID; selected: ID[] }
       NotificationSetting: {
         type: Eventful.NotificationSetting['refModel']
         id: ID
       }
-      PlanEditScreen: { plan: ID }
-      ContactSelect: { user: ID; selected: ID[] }
     }
 
-    type StackProps<NavigatorID extends keyof RootStackParamList | undefined = undefined> =
-      NativeStackScreenProps<RootStackParamList, NavigatorID>
+    type EventStackScreenProps<T extends keyof EventStackParamList> = CompositeScreenProps<
+      CompositeScreenProps<
+        NativeStackScreenProps<EventStackParamList, T>,
+        BottomTabScreenProps<AppTabParamList, 'EventTab'>
+      >,
+      RootStackScreenProps<'App'>
+    >
+
+    type UserStackParamList = {
+      User: { user: ID }
+      UserSearch: undefined
+      UserSetting: {
+        user: ID
+      }
+      Contacts: { user: ID }
+    }
+
+    type UserStackScreenProps<T extends keyof UserStackParamList> = CompositeScreenProps<
+      CompositeScreenProps<
+        NativeStackScreenProps<UserStackParamList, T>,
+        BottomTabScreenProps<AppTabParamList, 'UserTab'>
+      >,
+      RootStackScreenProps<'App'>
+    >
   }
 }
 
@@ -257,5 +314,9 @@ declare global {
         ) => Promise<void>
       }
     }
+  }
+
+  namespace ReactNavigation {
+    interface RootParamList extends Eventful.RN.RootStackParamList {}
   }
 }

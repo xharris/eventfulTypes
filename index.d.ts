@@ -62,6 +62,7 @@ declare namespace Eventful {
     location?: Location
     time?: Time
     who?: ID[]
+    note?: string
   }
 
   interface Location extends Document {

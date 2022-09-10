@@ -107,6 +107,23 @@ declare namespace Eventful {
     createdBy: ID
   }
 
+  interface Ping extends Document {
+    label: string
+    location: Location
+    createdBy: ID
+  }
+
+  interface Group extends Document {
+    name: string
+    createdBy: ID
+  }
+
+  interface GroupMembership extends Document {
+    group: ID
+    user: ID
+    createdBy: ID
+  }
+
   namespace API {
     interface RouteOptions {
       route: {
@@ -116,6 +133,10 @@ declare namespace Eventful {
         update: RequestHandler
         delete: RequestHandler
       }
+    }
+
+    interface PingGet extends Ping {
+      createdBy: User
     }
 
     interface PlanGet extends Plan {

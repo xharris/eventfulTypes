@@ -139,6 +139,8 @@ declare namespace Eventful {
       createdBy: User
     }
 
+    interface PingAdd extends Ping {}
+
     interface PlanGet extends Plan {
       who?: User[]
     }
@@ -216,14 +218,41 @@ declare namespace Eventful {
     >
 
     type AppTabParamList = {
+      MapTab: NavigatorScreenParams<MapStackParamList>
+      PingsTab: NavigatorScreenParams<PingsStackParamList>
+      UserTab: NavigatorScreenParams<UserStackParamList>
+
       AgendaTab: NavigatorScreenParams<AgendaStackParamList>
       EventTab: NavigatorScreenParams<EventStackParamList>
-      UserTab: NavigatorScreenParams<UserStackParamList>
     }
 
     type AppTabScreenProps<T extends keyof AppTabParamList> = CompositeScreenProps<
       BottomTabScreenProps<AppTabParamList, T>,
       RootStackScreenProps<'App'>
+    >
+
+    type MapStackParamList = {
+      Map: undefined
+    }
+
+    type MapStackScreenProps<T extends keyof MapStackParamList> = CompositeScreenProps<
+      NativeStackScreenProps<MapStackParamList, T>,
+      CompositeScreenProps<
+        BottomTabScreenProps<AppTabParamList, 'MapTab'>,
+        RootStackScreenProps<'App'>
+      >
+    >
+
+    type PingsStackParamList = {
+      Pings: undefined
+    }
+
+    type PingsStackScreenProps<T extends keyof PingsStackParamList> = CompositeScreenProps<
+      NativeStackScreenProps<PingsStackParamList, T>,
+      CompositeScreenProps<
+        BottomTabScreenProps<AppTabParamList, 'PingsTab'>,
+        RootStackScreenProps<'App'>
+      >
     >
 
     type AgendaStackParamList = {
@@ -312,6 +341,7 @@ declare global {
       FIREBASE_PRIVATE_KEY: string
       FIREBASE_CLIENT_EMAIL: string
       REACT_APP_FIREBASE_API_KEY: string
+      MAPS_KEY: string
     }
   }
 

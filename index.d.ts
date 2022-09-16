@@ -1,6 +1,7 @@
 import { BottomTabNavigationProp, BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { Notification, NotificationRequest } from 'expo-notifications'
 import { RequestHandler } from 'express'
 import { SessionData } from 'express-session'
 import { Messaging } from 'firebase-admin/lib/messaging/messaging'
@@ -40,6 +41,7 @@ declare namespace Eventful {
     webpush?: WebpushConfig
     android?: AndroidConfig
     apns?: ApnsConfig
+    expo?: NotificationRequest
   }
 
   interface Document {
@@ -124,6 +126,14 @@ declare namespace Eventful {
     createdBy: ID
   }
 
+  type LocalNotification = NotificationPayload & Required<Pick<NotificationPayload, 'expo'>>
+
+  interface Reminder extends Document {
+    amount: number
+    unit: 'm' | 'h' | 'd' | 'w' | 'M'
+    createdBy: ID
+  }
+
   namespace API {
     interface RouteOptions {
       route: {
@@ -187,6 +197,8 @@ declare namespace Eventful {
     }
     type SettingsEdit = SettingsGet
 
+    interface ReminderEdit extends Omit<Reminder, 'createdBy'> {}
+
     interface LogInOptions {
       username: string
       password: string
@@ -204,6 +216,8 @@ declare namespace Eventful {
   namespace RN {
     type Storage = {
       lastEvent?: ID
+      lastEventName?: string
+      agendaTbd?: boolean
     }
 
     type RootStackParamList = {
@@ -289,6 +303,9 @@ declare namespace Eventful {
       User: { user: ID }
       UserSearch: undefined
       UserSetting: {
+        user: ID
+      }
+      ReminderEdit: {
         user: ID
       }
       Contacts: { user: ID }

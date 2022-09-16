@@ -1,7 +1,7 @@
 import { BottomTabNavigationProp, BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Notification, NotificationRequest } from 'expo-notifications'
+import { Notification, NotificationRequest, NotificationRequestInput } from 'expo-notifications'
 import { RequestHandler } from 'express'
 import { SessionData } from 'express-session'
 import { Messaging } from 'firebase-admin/lib/messaging/messaging'
@@ -41,7 +41,7 @@ declare namespace Eventful {
     webpush?: WebpushConfig
     android?: AndroidConfig
     apns?: ApnsConfig
-    expo?: NotificationRequest
+    expo?: NotificationRequestInput
   }
 
   interface Document {

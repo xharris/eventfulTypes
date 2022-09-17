@@ -37,7 +37,7 @@ declare namespace Eventful {
     end?: TimePart
   }
   type NotificationPayload = MessagingPayload & {
-    data?: MessagingPayload['data'] & { createdBy?: string }
+    data?: MessagingPayload['data'] & { createdBy?: string; url?: string }
     webpush?: WebpushConfig
     android?: AndroidConfig
     apns?: ApnsConfig
@@ -218,6 +218,7 @@ declare namespace Eventful {
       lastEvent?: ID
       lastEventName?: string
       agendaTbd?: boolean
+      devMode?: boolean
     }
 
     type RootStackParamList = {
@@ -309,6 +310,7 @@ declare namespace Eventful {
         user: ID
       }
       Contacts: { user: ID }
+      Dev: undefined
     }
 
     type UserStackScreenProps<T extends keyof UserStackParamList> = CompositeScreenProps<

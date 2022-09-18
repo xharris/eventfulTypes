@@ -134,6 +134,13 @@ declare namespace Eventful {
     createdBy: ID
   }
 
+  interface Feedback extends Document {
+    text: string
+    type: 'question' | 'complaint' | 'suggestion' | 'bug' | 'other'
+    logs?: string
+    createdBy: ID
+  }
+
   namespace API {
     interface RouteOptions {
       route: {
@@ -198,6 +205,8 @@ declare namespace Eventful {
     type SettingsEdit = SettingsGet
 
     interface ReminderEdit extends Omit<Reminder, 'createdBy'> {}
+
+    interface FeedbackEdit extends Omit<Feedback, 'createdBy'> {}
 
     interface LogInOptions {
       username: string

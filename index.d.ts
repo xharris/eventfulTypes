@@ -136,7 +136,7 @@ declare namespace Eventful {
 
   interface Feedback extends Document {
     text: string
-    type: 'question' | 'complaint' | 'suggestion' | 'bug' | 'other'
+    type: 'question' | 'suggestion' | 'bug' | 'other'
     logs?: string
     createdBy: ID
   }
@@ -206,7 +206,7 @@ declare namespace Eventful {
 
     interface ReminderEdit extends Omit<Reminder, 'createdBy'> {}
 
-    interface FeedbackEdit extends Omit<Feedback, 'createdBy'> {}
+    interface FeedbackEdit extends Omit<Feedback, 'createdBy', '_id', 'createdAt', 'updatedAt'> {}
 
     interface LogInOptions {
       username: string

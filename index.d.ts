@@ -229,6 +229,9 @@ declare namespace Eventful {
       lastEventName?: string
       agendaTbd?: boolean
       devMode?: boolean
+      agendaScrollY?: number
+      messagesCollapsed?: boolean
+      agendaView?: 'tbd' | 'agenda'
     }
 
     type RootStackParamList = {

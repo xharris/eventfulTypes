@@ -38,6 +38,13 @@ declare namespace Eventful {
     end?: TimePart
   }
   type NotificationPayload = MessagingPayload & {
+    general: {
+      id?: string
+      title?: string
+      body?: string
+      subtitle?: string
+      url?: string
+    }
     data?: MessagingPayload['data'] & { createdBy?: string; url?: string }
     webpush?: WebpushConfig
     android?: AndroidConfig
@@ -56,6 +63,7 @@ declare namespace Eventful {
 
   interface Event extends Document {
     name: string
+    tags: ID[]
   }
 
   interface Plan extends Document {
@@ -142,6 +150,18 @@ declare namespace Eventful {
     createdBy: ID
   }
 
+  interface Tag extends Document {
+    name: string
+    color?: string
+    createdBy: ID
+  }
+
+  interface TagAccess extends Document {
+    tag: ID
+    user: ID
+    createdBy: ID
+  }
+
   namespace API {
     interface RouteOptions {
       route: {
@@ -168,6 +188,7 @@ declare namespace Eventful {
       groups: Group[]
       plans: PlanGet[]
       who: User[]
+      tags: Tag[]
     }
 
     interface EventUpdate extends Omit<Event, keyof Document> {}

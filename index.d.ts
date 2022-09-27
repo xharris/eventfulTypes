@@ -17,7 +17,7 @@ import { Types } from 'mongoose'
 import { Server } from 'socket.io'
 
 declare namespace Eventful {
-  export type ID = Types.ObjectId
+  export type ID = Types.ObjectId | string
   export type ParsedQs = { [key: string]: undefined | string | string[] | ParsedQs | ParsedQs[] }
   export enum CATEGORY {
     None,

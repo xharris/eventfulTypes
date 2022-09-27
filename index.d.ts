@@ -63,6 +63,7 @@ declare namespace Eventful {
 
   interface Event extends Document {
     name: string
+    private?: boolean
     tags: ID[]
   }
 
@@ -197,7 +198,7 @@ declare namespace Eventful {
       tags: Tag[]
     }
 
-    interface EventUpdate extends Omit<Event, keyof Document> {}
+    interface EventUpdate extends Partial<Omit<Event, keyof Document>> {}
 
     type EventAdd = Pick<Event, 'name'>
 
@@ -330,6 +331,9 @@ declare namespace Eventful {
       Event: { event: ID }
       PlanEdit: { plan: ID }
       ContactSelect: { user: ID; selected: ID[] }
+      EventSetting: {
+        event: ID
+      }
       NotificationSetting: {
         type: Eventful.NotificationSetting['refModel']
         id: ID
@@ -346,6 +350,7 @@ declare namespace Eventful {
 
     type UserStackParamList = {
       User: { user: ID }
+      Tag: { tag: ID }
       UserSearch: undefined
       UserSetting: {
         user: ID
@@ -354,6 +359,7 @@ declare namespace Eventful {
         user: ID
       }
       Contacts: { user: ID }
+      Tags: { user: ID }
       Dev: undefined
     }
 

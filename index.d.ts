@@ -38,7 +38,7 @@ declare namespace Eventful {
     end?: TimePart
   }
   type NotificationPayload = MessagingPayload & {
-    general: {
+    general?: {
       id?: string
       title?: string
       body?: string
@@ -156,9 +156,15 @@ declare namespace Eventful {
     createdBy: ID
   }
 
-  interface TagAccess extends Document {
-    tag: ID
+  interface Access {
     user: ID
+    ref: ID
+    refModel: 'tags' | 'events'
+    canView?: boolean
+    canEdit?: boolean
+    canDelete?: boolean
+    canModerate?: boolean
+    isInvited?: boolean
     createdBy: ID
   }
 
@@ -228,7 +234,11 @@ declare namespace Eventful {
 
     interface ReminderEdit extends Omit<Reminder, 'createdBy'> {}
 
-    interface FeedbackEdit extends Omit<Feedback, 'createdBy', '_id', 'createdAt', 'updatedAt'> {}
+    interface FeedbackEdit
+      extends Omit<Feedback, 'createdBy' | '_id' | 'createdAt' | 'updatedAt'> {}
+
+    interface AccessEdit
+      extends Omit<Access, 'createdBy' | 'createdBy' | '_id' | 'createdAt' | 'updatedAt'> {}
 
     interface LogInOptions {
       username: string
@@ -372,6 +382,7 @@ export interface ServerToClientEvents {
   'plan:add': (plan: Eventful.API.PlanGet) => void
   'plan:edit': (plan: Eventful.API.PlanGet) => void
   'plan:delete': (plan: Eventful.ID) => void
+  'access:change': (access: Eventful.Access) => void
 }
 
 declare module 'express-session' {
@@ -405,7 +416,7 @@ declare global {
         messaging: Messaging
         send: (
           setting: Pick<Eventful.NotificationSetting, 'key' | 'refModel' | 'ref'>,
-          data: Eventful.NotificationPayload
+          data?: Eventful.NotificationPayload
         ) => Promise<BatchResponse[]>
         addToken: (token: string, user: Eventful.ID) => Promise<Eventful.FcmToken>
       }
@@ -415,7 +426,7 @@ declare global {
       notification: {
         send: (
           setting: Pick<Eventful.NotificationSetting, 'key' | 'refModel' | 'ref'>,
-          data: Eventful.NotificationPayload
+          data?: Eventful.NotificationPayload
         ) => Promise<void>
       }
     }

@@ -235,11 +235,11 @@ declare namespace Eventful {
 
     interface ReminderEdit extends Omit<Reminder, 'createdBy'> {}
 
-    interface FeedbackEdit
-      extends Omit<Feedback, 'createdBy' | '_id' | 'createdAt' | 'updatedAt'> {}
+    interface FeedbackEdit extends Omit<Feedback, keyof Document | 'createdBy'> {}
 
-    interface AccessEdit
-      extends Omit<Access, 'createdBy' | 'createdBy' | '_id' | 'createdAt' | 'updatedAt'> {}
+    interface AccessEdit extends Omit<Access, keyof Document | 'createdBy'> {}
+
+    interface TagEdit extends Omit<Tag, keyof Document | 'createdBy'> {}
 
     interface LogInOptions {
       username: string

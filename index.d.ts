@@ -240,6 +240,8 @@ declare namespace Eventful {
     interface AccessEdit extends Omit<Access, keyof Document | 'createdBy'> {}
 
     interface TagGet extends Tag {
+      events: Event[]
+      users: User[]
       createdBy: User
     }
 
@@ -270,10 +272,30 @@ declare namespace Eventful {
       agendaView?: 'tbd' | 'agenda'
     }
 
+    /*
+Welcome
+Auth
+App
+    Agenda/Home
+    Event
+    EventSetting
+    ContactSelect
+    PlanEdit
+    NotificationSetting
+    User
+    Tag
+    UserSearch
+    UserSetting
+    ReminderEdit
+    Contacts
+    Tags
+    Dev
+    */
+
     type RootStackParamList = {
       Welcome: undefined
       Auth: undefined
-      App: NavigatorScreenParams<AppTabParamList>
+      Main: NavigatorScreenParams<AppStackParamList>
     }
 
     type RootStackScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -281,60 +303,11 @@ declare namespace Eventful {
       T
     >
 
-    type AppTabParamList = {
-      MapTab: NavigatorScreenParams<MapStackParamList>
-      PingsTab: NavigatorScreenParams<PingsStackParamList>
-      UserTab: NavigatorScreenParams<UserStackParamList>
-
-      AgendaTab: NavigatorScreenParams<AgendaStackParamList>
-      EventTab: NavigatorScreenParams<EventStackParamList>
-    }
-
-    type AppTabScreenProps<T extends keyof AppTabParamList> = CompositeScreenProps<
-      BottomTabScreenProps<AppTabParamList, T>,
-      RootStackScreenProps<'App'>
-    >
-
-    type MapStackParamList = {
-      Map: undefined
-    }
-
-    type MapStackScreenProps<T extends keyof MapStackParamList> = CompositeScreenProps<
-      NativeStackScreenProps<MapStackParamList, T>,
-      CompositeScreenProps<
-        BottomTabScreenProps<AppTabParamList, 'MapTab'>,
-        RootStackScreenProps<'App'>
-      >
-    >
-
-    type PingsStackParamList = {
-      Pings: undefined
-    }
-
-    type PingsStackScreenProps<T extends keyof PingsStackParamList> = CompositeScreenProps<
-      NativeStackScreenProps<PingsStackParamList, T>,
-      CompositeScreenProps<
-        BottomTabScreenProps<AppTabParamList, 'PingsTab'>,
-        RootStackScreenProps<'App'>
-      >
-    >
-
-    type AgendaStackParamList = {
+    type MainStackParamList = {
       Events: undefined
-    }
-
-    type AgendaStackScreenProps<T extends keyof AgendaStackParamList> = CompositeScreenProps<
-      NativeStackScreenProps<AgendaStackParamList, T>,
-      CompositeScreenProps<
-        BottomTabScreenProps<AppTabParamList, 'AgendaTab'>,
-        RootStackScreenProps<'App'>
-      >
-    >
-
-    type EventStackParamList = {
       Event: { event: ID }
+      ContactSelect: { user: ID; selected: ID[]; showMe?: boolean }
       PlanEdit: { plan: ID }
-      ContactSelect: { user: ID; selected: ID[] }
       EventSetting: {
         event: ID
       }
@@ -342,17 +315,9 @@ declare namespace Eventful {
         type: Eventful.NotificationSetting['refModel']
         id: ID
       }
-    }
-
-    type EventStackScreenProps<T extends keyof EventStackParamList> = CompositeScreenProps<
-      CompositeScreenProps<
-        NativeStackScreenProps<EventStackParamList, T>,
-        BottomTabScreenProps<AppTabParamList, 'EventTab'>
-      >,
-      RootStackScreenProps<'App'>
-    >
-
-    type UserStackParamList = {
+      Notifications: {
+        user: ID
+      }
       User: { user: ID }
       Tag: { tag: ID }
       UserSearch: undefined
@@ -365,14 +330,13 @@ declare namespace Eventful {
       Contacts: { user: ID }
       Tags: { user: ID }
       Dev: undefined
+      Map: undefined
+      Pings: undefined
     }
 
-    type UserStackScreenProps<T extends keyof UserStackParamList> = CompositeScreenProps<
-      CompositeScreenProps<
-        NativeStackScreenProps<UserStackParamList, T>,
-        BottomTabScreenProps<AppTabParamList, 'UserTab'>
-      >,
-      RootStackScreenProps<'App'>
+    type MainStackScreenProps<T extends keyof MainStackParamList> = CompositeScreenProps<
+      NativeStackScreenProps<MainStackParamList, T>,
+      RootStackScreenProps<'Main'>
     >
   }
 }

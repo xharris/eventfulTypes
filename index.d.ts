@@ -174,7 +174,7 @@ declare namespace Eventful {
       route: {
         getAll?: RequestHandler
         create?: RequestHandler
-        get: RequestHandler
+        get?: RequestHandler
         update: RequestHandler
         delete: RequestHandler
       }
@@ -236,6 +236,14 @@ declare namespace Eventful {
     interface ReminderEdit extends Omit<Reminder, 'createdBy'> {}
 
     interface FeedbackEdit extends Omit<Feedback, keyof Document | 'createdBy'> {}
+
+    type AccessGet = Record<
+      Access['refModel'],
+      Access & {
+        tag: Tag
+        event: Event
+      }
+    >
 
     interface AccessEdit extends Omit<Access, keyof Document | 'createdBy'> {}
 

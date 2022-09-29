@@ -64,7 +64,7 @@ declare namespace Eventful {
   interface Event extends Document {
     name: string
     private?: boolean
-    tags: ID[]
+    tags?: ID[]
   }
 
   interface Plan extends Document {
@@ -195,12 +195,12 @@ declare namespace Eventful {
       groups: Group[]
       plans: PlanGet[]
       who: User[]
-      tags: Tag[]
+      tags?: Tag[]
     }
 
     interface EventUpdate extends Partial<Omit<Event, keyof Document>> {}
 
-    type EventAdd = Pick<Event, 'name'>
+    type EventAdd = Omit<Event, keyof Document>
 
     interface PlanAdd extends Omit<Plan, keyof Document | 'event'> {
       location?: LocationAdd
@@ -246,6 +246,10 @@ declare namespace Eventful {
     >
 
     interface AccessEdit extends Omit<Access, keyof Document | 'createdBy'> {}
+
+    interface TagGet extends Tag {
+      createdBy: User
+    }
 
     interface TagEdit extends Omit<Tag, keyof Document | 'createdBy'> {}
 

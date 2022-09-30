@@ -157,7 +157,7 @@ declare namespace Eventful {
     createdBy: ID
   }
 
-  interface Access {
+  interface Access extends Document {
     user: ID
     ref: ID
     refModel: 'tags' | 'events'
@@ -237,18 +237,19 @@ declare namespace Eventful {
 
     interface FeedbackEdit extends Omit<Feedback, keyof Document | 'createdBy'> {}
 
-    type AccessGet = Record<
-      Access['refModel'],
-      Access & {
+    interface AccessGet {
+      tags: (Access & {
         tag: Tag
+      })[]
+      events: (Access & {
         event: Event
-      }
-    >
+      })[]
+    }
 
     interface AccessEdit extends Omit<Access, keyof Document | 'createdBy'> {}
 
     interface TagGet extends Tag {
-      events: Event[]
+      events: EventGet[]
       users: User[]
       createdBy: User
     }

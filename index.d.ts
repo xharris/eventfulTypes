@@ -104,7 +104,7 @@ declare namespace Eventful {
     /** ID of source */
     ref: ID
     /** source of notification */
-    refModel: 'events' | 'users' | 'plans'
+    refModel: 'events' | 'users' | 'plans' | 'tags'
     createdBy: ID
   }
 
@@ -160,12 +160,13 @@ declare namespace Eventful {
   interface Access extends Document {
     user: ID
     ref: ID
-    refModel: 'tags' | 'events'
+    refModel: NotificationSetting['refModel']
     canView?: boolean
     canEdit?: boolean
     canDelete?: boolean
     canModerate?: boolean
     isInvited?: boolean
+    isRemoved?: boolean
     createdBy: ID
   }
 

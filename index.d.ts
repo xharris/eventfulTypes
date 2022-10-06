@@ -44,6 +44,10 @@ declare namespace Eventful {
       body?: string
       subtitle?: string
       url?: string
+      /** should this notification appear in the notifications t */
+      ui?: boolean
+      /** store notification in database? */
+      store?: boolean
     }
     data?: MessagingPayload['data'] & { createdBy?: string; url?: string }
     webpush?: WebpushConfig
@@ -102,9 +106,9 @@ declare namespace Eventful {
     /** describes notification trigger */
     key: keyof ServerToClientEvents
     /** ID of source */
-    ref: ID
+    ref?: ID
     /** source of notification */
-    refModel: 'events' | 'users' | 'plans' | 'tags'
+    refModel?: 'events' | 'users' | 'plans' | 'tags'
     createdBy: ID
   }
 
@@ -169,6 +173,12 @@ declare namespace Eventful {
     isRemoved?: boolean
     createdBy: ID
   }
+
+  type Notification = Document &
+    NotificationPayload['general'] &
+    NotificationSetting & {
+      user: ID
+    }
 
   namespace API {
     interface RouteOptions {
@@ -397,7 +407,7 @@ declare global {
     interface Request {
       io: Server<ClientToServerEvents, ServerToClientEvents>
       fcm: {
-        messaging: Messaging
+        // messaging: Messaging
         send: (
           setting: Pick<Eventful.NotificationSetting, 'key' | 'refModel' | 'ref'>,
           data?: Eventful.NotificationPayload

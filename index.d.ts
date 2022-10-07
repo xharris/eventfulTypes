@@ -104,7 +104,7 @@ declare namespace Eventful {
 
   interface NotificationSetting extends Document {
     /** describes notification trigger */
-    key: keyof ServerToClientEvents
+    key?: keyof ServerToClientEvents
     /** ID of source */
     ref?: ID
     /** source of notification */

@@ -81,9 +81,9 @@ declare namespace Eventful {
     note?: string
   }
 
-  interface Location extends Document {
+  interface Location {
     label?: string
-    coords?: LatLng
+    coords: LatLng
     address?: string
   }
 
@@ -124,8 +124,11 @@ declare namespace Eventful {
   }
 
   interface Ping extends Document {
-    label: string
+    type: 'ping' | 'ask' | 'going' | 'come'
+    label?: string
+    tags: ID[]
     location: Location
+    time?: Date
     createdBy: ID
   }
 
@@ -195,7 +198,7 @@ declare namespace Eventful {
       createdBy: User
     }
 
-    interface PingAdd extends Ping {}
+    interface PingAdd extends Omit<Ping, keyof Document> {}
 
     interface PlanGet extends Plan {
       who?: User[]
@@ -399,6 +402,7 @@ declare global {
       FIREBASE_PRIVATE_KEY: string
       FIREBASE_CLIENT_EMAIL: string
       REACT_APP_FIREBASE_API_KEY: string
+      REACT_APP_MAPBOX_TOKEN: string
       MAPS_KEY: string
     }
   }

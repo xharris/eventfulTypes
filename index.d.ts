@@ -200,6 +200,7 @@ declare namespace Eventful {
     }
 
     interface PingGet extends Ping {
+      tags: Tag[]
       createdBy: User
     }
 

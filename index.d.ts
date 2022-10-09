@@ -129,6 +129,7 @@ declare namespace Eventful {
     tags: ID[]
     location: Location
     time?: Date
+    scope?: 'public' | 'contacts'
     createdBy: ID
   }
 
@@ -195,6 +196,7 @@ declare namespace Eventful {
     }
 
     interface PingGet extends Ping {
+      tags: Tag[]
       createdBy: User
     }
 

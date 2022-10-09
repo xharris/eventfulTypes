@@ -90,6 +90,10 @@ declare namespace Eventful {
   interface User extends Document {
     username: string
     password: string
+    displayName?: string
+    email?: string
+    deviceId?: string
+    method: 'password' | 'email'
   }
 
   interface Contact extends Document {
@@ -129,6 +133,7 @@ declare namespace Eventful {
     tags: ID[]
     location: Location
     time?: Date
+    scope?: 'public' | 'contacts'
     createdBy: ID
   }
 

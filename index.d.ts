@@ -188,6 +188,12 @@ declare namespace Eventful {
       user: ID
     }
 
+  interface InviteLink extends Document {
+    ref: ID
+    refModel: NotificationSetting['refModel']
+    expiresAt: Date
+  }
+
   namespace API {
     interface RouteOptions {
       route: {

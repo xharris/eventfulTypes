@@ -266,6 +266,7 @@ declare namespace Eventful {
 
     interface TagGet extends Tag {
       events: EventGet[]
+      pings: PingGet[]
       users: User[]
       createdBy: User
     }

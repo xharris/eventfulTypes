@@ -417,6 +417,7 @@ declare global {
       REACT_APP_FIREBASE_API_KEY: string
       REACT_APP_MAPBOX_TOKEN: string
       MAPS_KEY: string
+      DEBUG: string
     }
   }
 

@@ -133,7 +133,7 @@ declare namespace Eventful {
     tags: ID[]
     location: Location
     time?: Date
-    scope?: 'public' | 'contacts'
+    scope?: 'me' | 'public' | 'contacts'
     createdBy: ID
   }
 

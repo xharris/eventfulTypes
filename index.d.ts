@@ -405,7 +405,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production' | 'test'
-      IS_MOBILE: boolean
+      REACT_APP_IS_MOBILE: boolean
       DATABASE_URI: string
       DATABASE_NAME: string
       SESSION_SECRET: string
@@ -417,7 +417,8 @@ declare global {
       REACT_APP_FIREBASE_API_KEY: string
       REACT_APP_MAPBOX_TOKEN: string
       MAPS_KEY: string
-      DEBUG: string
+      REACT_APP_DEBUG: string
+      PUBLIC_URL: string
     }
   }
 

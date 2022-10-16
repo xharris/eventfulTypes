@@ -3,6 +3,7 @@ import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/n
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { NotificationRequestInput } from 'expo-notifications'
 import { RequestHandler } from 'express'
+import { Session } from 'express-session'
 import {
   AndroidConfig,
   ApnsConfig,
@@ -449,7 +450,7 @@ declare global {
         ) => Promise<BatchResponse[]>
         addToken: (token: string, user: Eventful.ID) => Promise<Eventful.FcmToken>
       }
-      session: {
+      session: Session & {
         user?: Eventful.User
       }
       notification: {

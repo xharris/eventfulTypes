@@ -1,10 +1,8 @@
-import { BottomTabNavigationProp, BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { DrawerScreenProps } from '@react-navigation/drawer'
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Notification, NotificationRequest, NotificationRequestInput } from 'expo-notifications'
+import { NotificationRequestInput } from 'expo-notifications'
 import { RequestHandler } from 'express'
-import { SessionData } from 'express-session'
-import { Messaging } from 'firebase-admin/lib/messaging/messaging'
 import {
   AndroidConfig,
   ApnsConfig,
@@ -12,13 +10,14 @@ import {
   MessagingPayload,
   WebpushConfig,
 } from 'firebase-admin/lib/messaging/messaging-api'
-import { Session } from 'inspector'
 import { Types } from 'mongoose'
 import { Server } from 'socket.io'
 
 declare namespace Eventful {
   export type ID = Types.ObjectId | string
-  export type ParsedQs = { [key: string]: undefined | string | string[] | ParsedQs | ParsedQs[] }
+  export type ParsedQs = {
+    [key: string]: undefined | string | string[] | ParsedQs | ParsedQs[]
+  }
   export enum CATEGORY {
     None,
     Lodging,
@@ -206,18 +205,18 @@ declare namespace Eventful {
       }
     }
 
-    interface PingGet extends Ping {
+    interface PingGet extends Omit<Ping, 'tags' | 'createdBy'> {
       tags: Tag[]
       createdBy: User
     }
 
     interface PingAdd extends Omit<Ping, keyof Document> {}
 
-    interface PlanGet extends Plan {
+    interface PlanGet extends Omit<Plan, 'who'> {
       who?: User[]
     }
 
-    interface EventGet extends Event {
+    interface EventGet extends Omit<Event, 'tags'> {
       time: Time
       groups: Group[]
       plans: PlanGet[]
@@ -233,7 +232,7 @@ declare namespace Eventful {
       location?: LocationAdd
     }
 
-    interface PlanEdit extends Omit<Plan, keyof Document | 'event'> {
+    interface PlanEdit extends Omit<Plan, keyof Document | 'event' | 'category'> {
       _id: ID
       location?: LocationAdd
       who?: ID[]
@@ -242,16 +241,16 @@ declare namespace Eventful {
 
     interface LocationAdd extends Omit<Location, keyof Document> {}
 
-    interface MessageGet extends Message {
+    interface MessageGet extends Omit<Message, 'replyTo' | 'createdBy'> {
       replyTo?: Message & { createdBy: User }
       createdBy: User
     }
 
-    interface MessageAdd extends Pick<Message, 'text' | 'replyTo'> {
+    interface MessageAdd extends Pick<Message, 'text'> {
       replyTo?: Message['replyTo']
     }
 
-    interface MessageEdit extends Pick<Message, '_id' | 'text' | 'replyTo'> {
+    interface MessageEdit extends Pick<Message, '_id' | 'text'> {
       replyTo?: Message['replyTo']
     }
 
@@ -275,7 +274,7 @@ declare namespace Eventful {
 
     interface AccessEdit extends Omit<Access, keyof Document | 'createdBy'> {}
 
-    interface TagGet extends Tag {
+    interface TagGet extends Omit<Tag, 'createdBy'> {
       events: EventGet[]
       pings: PingGet[]
       users: User[]
@@ -329,10 +328,23 @@ App
     Dev
     */
 
+    type RootDrawerParamList = {
+      Auth: undefined
+      Pings: undefined
+      Tag: { id: ID }
+      Tags: undefined
+      User: { id: ID }
+      Invite: { id: ID }
+    }
+    type ScreenProps<S extends keyof RootDrawerParamList> = DrawerScreenProps<
+      RootDrawerParamList,
+      S
+    >
+
     type RootStackParamList = {
       Welcome: undefined
       Auth: undefined
-      Main: NavigatorScreenParams<AppStackParamList>
+      Main: NavigatorScreenParams<MainStackParamList>
     }
 
     type RootStackScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -407,7 +419,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production' | 'test'
-      IS_MOBILE: boolean
+      REACT_APP_IS_MOBILE: string
       DATABASE_URI: string
       DATABASE_NAME: string
       SESSION_SECRET: string
@@ -419,6 +431,8 @@ declare global {
       REACT_APP_FIREBASE_API_KEY: string
       REACT_APP_MAPBOX_TOKEN: string
       MAPS_KEY: string
+      REACT_APP_DEBUG: string
+      PUBLIC_URL: string
     }
   }
 
@@ -450,6 +464,6 @@ declare global {
   }
 
   namespace ReactNavigation {
-    interface RootParamList extends Eventful.RN.RootStackParamList {}
+    interface RootParamList extends Eventful.RN.RootDrawerParamList {}
   }
 }

@@ -98,6 +98,7 @@ declare namespace Eventful {
 
   interface Contact extends Document {
     user: ID
+    createdBy: ID
   }
 
   interface Message extends Document {
@@ -112,7 +113,7 @@ declare namespace Eventful {
     /** ID of source */
     ref?: ID
     /** source of notification */
-    refModel?: 'events' | 'users' | 'plans' | 'tags'
+    refModel?: 'events' | 'users' | 'plans' | 'tags' | 'pings'
     createdBy: ID
   }
 
@@ -393,6 +394,7 @@ export interface ServerToClientEvents {
   'plan:edit': (plan: Eventful.API.PlanGet) => void
   'plan:delete': (plan: Eventful.ID) => void
   'access:change': (access: Eventful.Access) => void
+  'ping:add': (ping: Eventful.API.PingGet) => void
 }
 
 declare module 'express-session' {
@@ -426,7 +428,9 @@ declare global {
       fcm: {
         // messaging: Messaging
         send: (
-          setting: Pick<Eventful.NotificationSetting, 'key' | 'refModel' | 'ref'>,
+          setting: Pick<Eventful.NotificationSetting, 'key' | 'refModel' | 'ref'> & {
+            users?: Eventful.ID[]
+          },
           data?: Eventful.NotificationPayload
         ) => Promise<BatchResponse[]>
         addToken: (token: string, user: Eventful.ID) => Promise<Eventful.FcmToken>
@@ -436,7 +440,9 @@ declare global {
       }
       notification: {
         send: (
-          setting: Pick<Eventful.NotificationSetting, 'key' | 'refModel' | 'ref'>,
+          setting: Pick<Eventful.NotificationSetting, 'key' | 'refModel' | 'ref'> & {
+            users?: Eventful.ID[]
+          },
           data?: Eventful.NotificationPayload
         ) => Promise<void>
       }

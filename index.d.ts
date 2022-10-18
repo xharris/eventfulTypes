@@ -307,6 +307,7 @@ declare namespace Eventful {
       agendaScrollY?: number
       messagesCollapsed?: boolean
       agendaView?: 'tbd' | 'agenda'
+      pingScope: Eventful.Ping['scope']
     }
 
     /*

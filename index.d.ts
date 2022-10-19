@@ -41,8 +41,9 @@ declare namespace Eventful {
     general?: {
       id?: string
       title?: string
-      body?: string
+      body?: {}
       subtitle?: string
+      category?: string
       url?: string
       /** should this notification appear in the notifications t */
       ui?: boolean
@@ -54,6 +55,10 @@ declare namespace Eventful {
     android?: AndroidConfig
     apns?: ApnsConfig
     expo?: NotificationRequestInput
+
+    title?: string
+    message?: string
+    body?: string
   }
 
   interface Document {

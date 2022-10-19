@@ -404,10 +404,10 @@ export interface ClientToServerEvents {
   'event:leave': (event: Eventful.ID) => void
   'room:join': (info: Pick<Eventful.NotificationSetting, 'key' | 'refModel' | 'ref'>) => void
   'room:leave': (info: Pick<Eventful.NotificationSetting, 'key' | 'refModel' | 'ref'>) => void
-  'user:join': (contact: Eventful.ID, user: Eventful.ID) => void
-  'user:leave': (contact: Eventful.ID, user: Eventful.ID) => void
+  'user:join': (user: Eventful.ID) => void
+  'user:leave': () => void
   'tag:join': (tag: Eventful.ID, user: Eventful.ID) => void
-  'tag:leave': (tag: Eventful.ID, user: Eventful.ID) => void
+  'tag:leave': (tag: Eventful.ID) => void
 }
 
 export interface ServerToClientEvents {

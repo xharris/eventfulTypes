@@ -337,17 +337,27 @@ App
     Dev
     */
 
+    // pings
+
     type RootDrawerParamList = {
       Auth: undefined
       Pings: undefined
-      Tag: { id: ID }
-      Tags: undefined
-      User: { id: ID }
-      Invite: { id: ID }
+      Other: NavigatorScreenParams<OtherStackParamList>
     }
     type ScreenProps<S extends keyof RootDrawerParamList> = DrawerScreenProps<
       RootDrawerParamList,
       S
+    >
+
+    type OtherStackParamList = {
+      Tags: undefined
+      Tag: { id: ID }
+      User: { id: ID }
+      Invite: { id: ID }
+    }
+    type OtherScreenProps<S extends keyof OtherStackParamList> = CompositeScreenProps<
+      NativeStackScreenProps<OtherStackParamList, S>,
+      ScreenProps<'Other'>
     >
 
     type RootStackParamList = {
@@ -360,6 +370,8 @@ App
       RootStackParamList,
       T
     >
+
+    // eventful
 
     type MainStackParamList = {
       Events: undefined

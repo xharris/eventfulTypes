@@ -313,6 +313,7 @@ declare namespace Eventful {
       messagesCollapsed?: boolean
       agendaView?: 'tbd' | 'agenda'
       pingScope: Eventful.Ping['scope']
+      pingTags: string
       askedBgPerms: boolean
       location: Eventful.Location['coords']
     }

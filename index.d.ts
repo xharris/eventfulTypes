@@ -16,6 +16,7 @@ import { Server } from 'socket.io'
 
 declare namespace Eventful {
   export type ID = Types.ObjectId | string
+  export type SCOPE = 'me' | 'public' | 'contacts'
   export type ParsedQs = {
     [key: string]: undefined | string | string[] | ParsedQs | ParsedQs[]
   }
@@ -90,6 +91,9 @@ declare namespace Eventful {
     label?: string
     coords: LatLng
     address?: string
+    type?: 'food' | 'fun'
+    scope?: SCOPE
+    tags: ID[]
   }
 
   interface User extends Document {
@@ -138,8 +142,9 @@ declare namespace Eventful {
     label?: string
     tags: ID[]
     location: Location
+    saved_location?: Location
     time?: Date
-    scope?: 'me' | 'public' | 'contacts'
+    scope?: SCOPE
     createdBy: ID
   }
 
@@ -211,8 +216,9 @@ declare namespace Eventful {
       }
     }
 
-    interface PingGet extends Omit<Ping, 'tags' | 'createdBy'> {
+    interface PingGet extends Omit<Ping, 'tags' | 'createdBy' | 'saved_location'> {
       tags: Tag[]
+      saved_location?: Location
       createdBy: User
     }
 
@@ -246,6 +252,8 @@ declare namespace Eventful {
     }
 
     interface LocationAdd extends Omit<Location, keyof Document> {}
+
+    interface LocationEdit extends Omit<Location, keyof Document> {}
 
     interface MessageGet extends Omit<Message, 'replyTo' | 'createdBy'> {
       replyTo?: Message & { createdBy: User }

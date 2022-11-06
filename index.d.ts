@@ -87,11 +87,11 @@ declare namespace Eventful {
     note?: string
   }
 
-  interface Location {
+  interface Location extends Document {
     label?: string
     coords: LatLng
     address?: string
-    type?: 'food' | 'fun'
+    category?: string
     scope?: SCOPE
     tags: ID[]
   }
@@ -222,7 +222,9 @@ declare namespace Eventful {
       createdBy: User
     }
 
-    interface PingAdd extends Omit<Ping, keyof Document> {}
+    interface PingAdd extends Omit<Ping, keyof Document | 'location'> {
+      location: LocationAdd
+    }
 
     interface PlanGet extends Omit<Plan, 'who'> {
       who?: User[]
@@ -251,7 +253,13 @@ declare namespace Eventful {
       category?: Plan['category']
     }
 
-    interface LocationAdd extends Omit<Location, keyof Document> {}
+    interface LocationGet extends Omit<Location, 'tags'> {
+      tags: Tag[]
+    }
+
+    interface LocationAdd extends Omit<Location, keyof Document | 'tags'> {
+      tags?: ID[]
+    }
 
     interface LocationEdit extends Omit<Location, keyof Document> {}
 
@@ -363,6 +371,7 @@ App
       Tag: { id: ID }
       User: { id: ID }
       Invite: { id: ID }
+      Locations: undefined
     }
     type OtherScreenProps<S extends keyof OtherStackParamList> = CompositeScreenProps<
       NativeStackScreenProps<OtherStackParamList, S>,
@@ -451,6 +460,10 @@ declare module 'express-session' {
 }
 
 declare global {
+  declare module '*.png' {
+    export default '' as string
+  }
+
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production' | 'test'

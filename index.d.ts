@@ -356,38 +356,52 @@ App
 
     // pings
 
-    type RootDrawerParamList = {
+    type RootStackParmList = {
       Auth: undefined
       Pings: undefined
-      Other: NavigatorScreenParams<OtherStackParamList>
-    }
-    type ScreenProps<S extends keyof RootDrawerParamList> = DrawerScreenProps<
-      RootDrawerParamList,
-      S
-    >
-
-    type OtherStackParamList = {
       Tags: undefined
       Tag: { id: ID }
       User: { id: ID }
       Invite: { id: ID }
       Locations: undefined
     }
-    type OtherScreenProps<S extends keyof OtherStackParamList> = CompositeScreenProps<
-      NativeStackScreenProps<OtherStackParamList, S>,
-      ScreenProps<'Other'>
+    type ScreenProps<S extends keyof RootStackParmList> = NativeStackScreenProps<
+      RootStackParmList,
+      S
     >
 
-    type RootStackParamList = {
-      Welcome: undefined
-      Auth: undefined
-      Main: NavigatorScreenParams<MainStackParamList>
-    }
+    // type RootDrawerParamList = {
+    //   Auth: undefined
+    //   Pings: undefined
+    //   Other: NavigatorScreenParams<OtherStackParamList>
+    // }
+    // type ScreenProps<S extends keyof RootDrawerParamList> = DrawerScreenProps<
+    //   RootDrawerParamList,
+    //   S
+    // >
 
-    type RootStackScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<
-      RootStackParamList,
-      T
-    >
+    // type OtherStackParamList = {
+    //   Tags: undefined
+    //   Tag: { id: ID }
+    //   User: { id: ID }
+    //   Invite: { id: ID }
+    //   Locations: undefined
+    // }
+    // type OtherScreenProps<S extends keyof OtherStackParamList> = CompositeScreenProps<
+    //   NativeStackScreenProps<OtherStackParamList, S>,
+    //   ScreenProps<'Other'>
+    // >
+
+    // type RootStackParamList = {
+    //   Welcome: undefined
+    //   Auth: undefined
+    //   Main: NavigatorScreenParams<MainStackParamList>
+    // }
+
+    // type RootStackScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<
+    //   RootStackParamList,
+    //   T
+    // >
 
     // eventful
 

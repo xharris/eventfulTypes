@@ -332,6 +332,7 @@ declare namespace Eventful {
       pingTags: string
       askedBgPerms: boolean
       location: Eventful.Location['coords']
+      pingListCollapsed: boolean
     }
 
     /*
